@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker</title>
+    <!-- css link -->
+     <link rel="stylesheet" href="./style/style.css">
+    <!-- tailwind + desiy cdn -->
+     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<!-- google font -->
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+<!-- fontawesome cdn -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+  <header class="">
+    <section class="px-4 md:px-[120px] pt-[17px] pb-[17px] border-b-1 border-[#e9e9e9FF]">
+  
+  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+    
+    <div>
+      <a href="" class="flex items-center gap-1">
+        <img src="./assets/github-logo.png" alt="" class="w-[36px]" />
+        <span class="text-[#1F2937] text-[20px] md:text-[24px] font-semibold">GitHub Issues Tracker</span>
+      </a>
+    </div>
+
+    <form id="search-form" class="flex items-center gap-2 w-full md:w-auto">
+      <label class="input input-bordered flex items-center gap-2 grow md:max-w-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-5 text-[#64748B] opacity-70">
+          <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+        </svg>
+        <input type="text" id="search-input" class="grow text-[16px] font-normal text-[#64748B]" placeholder="Search issues..." />
+      </label>
+
+      <button type="submit" class="btn bg-[#6200EE] hover:bg-[#5200db] text-white text-[16px] font-semibold border-none normal-case px-6">
+        Search
+      </button>
+    </form>
+  </div>
+</section>
+  </header>
+  <main class="w-[95%] sm:w-[90%] max-w-[75%] mx-auto">
+   
+  <section class="mt-[40px] md:mt-[84px] px-4 md:px-0">
+  <div class="py-[24px] md:py-[36px] shadow-sm px-4 md:pl-[24px] bg-white rounded-xl border border-[#e4e4e7FF] flex flex-wrap justify-center md:justify-start gap-2 md:gap-4 ">
+    
+    <button id="tab-all" onclick="switchTab('all')" 
+      class="bg-[#4A00FF] py-[12px] flex-1 md:flex-none px-4 md:px-[50px] text-white text-[16px] font-semibold cursor-pointer rounded-[8px]">
+      All
+    </button>
+    
+    <button id="tab-open" onclick="switchTab('open')" 
+      class="bg-[#ffffff] py-[12px] flex-1 md:flex-none px-4 md:px-[50px] text-[#64748bFF] text-[16px] font-semibold border border-[#e4e4e7FF] cursor-pointer rounded-[8px]">
+      Open
+    </button>
+    
+    <button id="tab-closed" onclick="switchTab('closed')" 
+      class="bg-[#ffffff] py-[12px] flex-1 md:flex-none px-4 md:px-[50px] text-[#64748bFF] text-[16px] font-semibold border border-[#e4e4e7FF] cursor-pointer rounded-[8px]">
+      Closed
+    </button>
+    
+  </div>
+</section>
+    <section class="mt-[16px] px-4 md:px-0">
+    <div class="py-[24px] md:py-[36px] px-[20px] md:px-[24px] shadow-sm border border-[#e9e9e9FF] bg-white rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 z-10">
+        
+        <div>
+            <a href="#" class="flex items-center gap-4">
+                <img src="./assets/Group 1.png" alt="icon" class="w-12 h-12 md:w-14 md:h-14 flex-shrink-0" />
+
+                <div class="flex flex-col justify-center">
+                    <span id="issue-count" class="text-[#1F2937] text-[18px] md:text-[20px] font-semibold leading-tight tracking-tight">
+                        50 Issues
+                    </span>
+                    <span class="text-[#64748B] text-[14px] md:text-[16px] font-normal mt-0.5">
+                        Track and manage your project issues
+                    </span>
+                </div>
+            </a>
+        </div>
+
+        <div class="w-full md:w-auto">
+            <div class="flex gap-6 font-medium text-slate-800 ml-16 md:ml-0">
+                <div class="flex items-center">
+                    <span class="h-3 w-3 rounded-full bg-[#00A96E] mr-2"></span>
+                    <span class="text-[14px] md:text-[16px] text-[#1F2937] font-medium">Open</span>
+                </div>
+
+                <div class="flex items-center">
+                    <span class="h-3 w-3 rounded-full bg-[#A855F7] mr-2"></span>
+                    <span class="text-[14px] md:text-[16px] text-[#1F2937] font-medium">Closed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <section class="z-0">
+       <div id="issues-wrapper" class="p-4 md:p-10 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[12px] items-stretch">
+  
+  
+</div>
+
+    </section>
+     <section id="spinner" class="flex justify-center items-center py-10 hidden ">
+      <span class="loading loading-bars loading-xl"></span>
+    </section>
+    <section>
+   <div class="shadow-sm ">
+       <!-- Open the modal using ID.showModal() method -->
+ <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+<dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box max-w-3xl p-8 bg-white rounded-2xl relative">
+    
+    <h3 id="modal-title" class="text-[24px] font-bold text-[#1F2937] leading-tight mb-4">
+      Fix broken image uploads
+    </h3>
+
+    <div class="flex items-center gap-4 mb-6 flex-wrap">
+      <span id="modal-status" class="bg-[#00A96E] text-white px-4 py-1 rounded-full text-[12px] font-medium">
+        Opened
+      </span>
+      <div class="flex items-center gap-2 text-[#64748B] text-[12px] font-normal">
+        <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+        <span id="modal-author-name">Opened by Fahim Ahmed</span>
+      </div>
+      <div class="flex items-center gap-2 text-[#64748B] text-[12px] font-normal">
+        <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+        <span id="modal-date">22/02/2026</span>
+      </div>
+    </div>
+
+    <div id="modal-labels" class="flex flex-wrap gap-3 mt-6 mb-8"> 
+    <a href="#" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FECACA] border border-[#EF4444]  rounded-full">
+        <img src="./assets/Vector.png" alt="Bug" class="w-3.5 h-3.5">
+        <span class="text-[12px] text-[#EF4444] font-medium uppercase tracking-tight">Bug</span>
+    </a>
+
+    <a href="#" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FDE68A] border border-[#D97706] rounded-full">
+        <img src="./assets/Vector (1).png" alt="Help" class="w-3.5 h-3.5">
+        <span class="text-[12px] text-[#D97706] font-medium uppercase tracking-tight">Help Wanted</span>
+    </a>
+</div>
+
+<div class="mb-10">
+    <p id="modal-description" class="text-[#64748B] text-[16px] font-normal leading-relaxed">
+        The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.
+    </p>
+</div>
+
+   <div class="bg-[#F8FAFC] rounded-xl p-6 flex justify-start items-center gap-[120px]"> 
+    <div>
+        <p class="text-[#64748B] text-[16px] font-normal mb-1">Assignee:</p>
+        <p id="modal-assignee" class="text-[#1F2937] font-semibold text-[16px]">Fahim Ahmed</p>
+    </div>
+
+    <div>
+        <p class="text-[#64748B] text-[16px] font-normal mb-2">Priority:</p>
+        <span id="modal-priority" class="bg-[#EF4444] text-white px-6 py-1.5 rounded-full text-[12px] font-medium uppercase tracking-wider">
+          High
+        </span>
+    </div>
+</div>
+
+    <div class="modal-action mt-8">
+      <form method="dialog">
+        <button class="btn bg-[#4A00FF] hover:bg-[#5200db] text-white border-none px-[16px] py-[11.5px] rounded-[4px] font-semibold text-[16px] cursor-pointer 1 outline-none focus:outline-none">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+   </div>
+    </section>
+  </main>
+
+<script src="./script/script.js"></script>
+</body>
+</html>
