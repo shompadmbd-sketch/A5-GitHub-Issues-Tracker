@@ -81,9 +81,9 @@ console.log(greet());
 * **Multi-line Support:** We can write strings across multiple lines easily.
 * **No Concatenation Needed:** We don't have to use the `+` operator to join strings and variables.
 
-#### Examples:
+#### For examples:
 
-**1. Variable Interpolation:**
+**Variable Interpolation:**
 
 ```javascript
 const product = "Laptop";
