@@ -138,6 +138,7 @@ searchForm.addEventListener('submit', function(e) {
 });
 
 // modal
+
 async function showIssueDetails(id) {
     const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
     const data = await res.json();
@@ -147,23 +148,40 @@ async function showIssueDetails(id) {
     document.getElementById('modal-description').innerText = issue.description;
     document.getElementById('modal-author-name').innerText = `Opened by ${issue.author}`;
     document.getElementById('modal-date').innerText = new Date(issue.createdAt).toLocaleDateString();
-    
-    // এখানে কন্ডিশন চেক করা হয়েছে: assignee থাকলে সেটা দেখাবে, না থাকলে "N/A"
     document.getElementById('modal-assignee').innerText = issue.assignee ? issue.assignee : "N/A"; 
-    
     document.getElementById('modal-priority').innerText = issue.priority.toUpperCase();
 
+    
     const statusEl = document.getElementById('modal-status');
     statusEl.innerText = issue.status.toUpperCase();
-    
     if (issue.status.toLowerCase() === 'open') {
         statusEl.className = "bg-[#00A96E] text-white px-4 py-1 rounded-full text-[12px] font-medium";
     } else {
         statusEl.className = "bg-[#A855F7] text-white px-4 py-1 rounded-full text-[12px] font-medium";
     }
 
+    
+    const modalLabels = document.getElementById('modal-labels');
+    modalLabels.innerHTML = ''; 
+
+    issue.labels.forEach(label => {
+        const isBug = label.toLowerCase() === 'bug';
+        const bgColor = isBug ? 'bg-[#FECACA]' : 'bg-[#FDE68A]';
+        const textColor = isBug ? 'text-[#EF4444]' : 'text-[#D97706]';
+        const borderColor = isBug ? 'border-[#EF4444]' : 'border-[#D97706]';
+        const icon = isBug ? './assets/Vector.png' : './assets/Vector (1).png';
+
+        const labelDiv = document.createElement('div');
+        labelDiv.className = `inline-flex items-center gap-1.5 px-3 py-1 ${bgColor} border ${borderColor} rounded-full`;
+        labelDiv.innerHTML = `
+            <img src="${icon}" alt="${label}" class="w-3.5 h-3.5">
+            <span class="text-[12px] ${textColor} font-medium uppercase tracking-tight">${label}</span>
+        `;
+        modalLabels.appendChild(labelDiv);
+    });
+    
     my_modal_5.showModal();
-};
+}
 
 function switchTab(status) {
     const tabs = ['all', 'open', 'closed'];
