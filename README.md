@@ -83,8 +83,6 @@ console.log(greet());
 
 #### For examples:
 
-**Variable Interpolation:**
-
 ```javascript
 const product = "Laptop";
 const price = 50000;
