@@ -3,7 +3,7 @@
 **Answer:** Comparison of var, let, and const
 In modern JavaScript (ES6+), we have three ways to declare variables. Each has its own behavior regarding scope, re-declaration, and re-assignment.
 
-### Comparison Table
+### Comparison Table:
 
 | Feature | `var` | `let` | `const` |
 | :--- | :--- | :--- | :--- |
@@ -43,7 +43,7 @@ Just like arrays, we can copy or update objects very easily.
 **Answer:** Comparison of var, let, and const
 In modern JavaScript (ES6+), we have three ways to declare variables. Each has its own behavior regarding scope, re-declaration, and re-assignment.
 
-#### Comparison Table
+#### Comparison Table:
 
 | Feature | `forEach()` | `map()` | `filter()` |
 | :--- | :--- | :--- | :--- |
@@ -53,3 +53,20 @@ In modern JavaScript (ES6+), we have three ways to declare variables. Each has i
 | **Usage Case** | Printing data or saving data to a database. | Doubling numbers, changing string cases, or extracting names. | Finding active users, filtering prices, or searching for specific items. |
 
 ---
+
+## 4️⃣ What is an arrow function?
+
+**Answer:** An **Arrow Function** is a modern and concise way to write functions in JavaScript using the `=>` syntax. It was introduced in ES6 to make our code cleaner and more readable.
+
+#### Key Features:
+* **Concise Syntax:** We can write functions with less code.
+* **Implicit Return:** If the function has only one line, we don't need to use the `return` keyword or curly braces `{ }`.
+* **Clean Code:** It is very helpful when we use array methods like `map()`, `filter()`, or `forEach()`.
+
+#### Examples:
+
+**Simple Arrow Function:**
+
+```javascript
+const greet = () => "Hello, welcome to our assignment!";
+console.log(greet());
