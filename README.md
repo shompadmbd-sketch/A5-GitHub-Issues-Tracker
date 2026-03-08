@@ -22,17 +22,34 @@ In modern JavaScript (ES6+), we have three ways to declare variables. Each has i
 
 In simple terms, it "spreads" or expands the elements of an Array or an Object so that we can use them individually.
 
-Why do we use it?
-**1.** Copying an Array
+## Why do we use it?
+
+**1.** Copying an Array:
 Before the spread operator, copying an array was complicated. Now, we can create a perfect copy in one line.
 
-**2.** Merging (Combining) Arrays
+**2.** Merging (Combining) Arrays:
 We can easily join two or more arrays into a single new array.
 
-**3.** Adding New Elements
+**3.** Adding New Elements:
 We can add new items to an existing array without changing the original one.
 
-**4.** Using with Objects
+**4.** Using with Objects:
 Just like arrays, we can copy or update objects very easily.
+
+---
+
+## 3️⃣ What is the difference between map(), filter(), and forEach()?
+
+**Answer:** Comparison of var, let, and const
+In modern JavaScript (ES6+), we have three ways to declare variables. Each has its own behavior regarding scope, re-declaration, and re-assignment.
+
+#### Comparison Table
+
+| Feature | `forEach()` | `map()` | `filter()` |
+| :--- | :--- | :--- | :--- |
+| **Purpose** | We use it to loop through each element and perform an action. | We use it to transform each element and create a new array. | We use it to select specific elements that meet a condition. |
+| **Return Value** | It returns **nothing** (`undefined`). | It returns a **New Array** with the same length. | It returns a **New Array** with only the matching elements. |
+| **Original Array** | We do not change the original array. | We do not change the original array. | We do not change the original array. |
+| **Usage Case** | Printing data or saving data to a database. | Doubling numbers, changing string cases, or extracting names. | Finding active users, filtering prices, or searching for specific items. |
 
 ---
