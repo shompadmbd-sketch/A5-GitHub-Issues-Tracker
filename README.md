@@ -63,10 +63,34 @@ In modern JavaScript (ES6+), we have three ways to declare variables. Each has i
 * **Implicit Return:** If the function has only one line, we don't need to use the `return` keyword or curly braces `{ }`.
 * **Clean Code:** It is very helpful when we use array methods like `map()`, `filter()`, or `forEach()`.
 
-#### Examples:
+#### For examples:
 
-**Simple Arrow Function:**
 
 ```javascript
 const greet = () => "Hello, welcome to our assignment!";
 console.log(greet());
+```
+---
+
+## 5️⃣ What are template literals?
+
+**Answer:** **Template Literals** are a modern way to handle strings in JavaScript, introduced in ES6. They are defined using **backticks** (`` ` ``) instead of regular quotes.
+
+#### Key Features:
+* **Variable Embedding:** We can insert variables directly into strings using `${}`.
+* **Multi-line Support:** We can write strings across multiple lines easily.
+* **No Concatenation Needed:** We don't have to use the `+` operator to join strings and variables.
+
+#### Examples:
+
+**1. Variable Interpolation:**
+
+```javascript
+const product = "Laptop";
+const price = 50000;
+
+// Using Template Literals
+console.log(`The price of this ${product} is ${price} BDT.`);
+
+```
+---
