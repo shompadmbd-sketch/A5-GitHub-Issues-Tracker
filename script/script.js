@@ -129,30 +129,47 @@ function switchTab(status) {
 }
 
 
+// মেন্টরের স্টাইল অনুযায়ী সার্চ ফাংশন
 const searchForm = document.getElementById('search-form');
+
 searchForm.addEventListener('submit', function(e) {
     e.preventDefault(); 
     
-    const query = document.getElementById('search-input').value;
+    // ১. ইনপুট ভ্যালু নেওয়া
+    const query = document.getElementById('search-input').value.trim().toLowerCase();
 
-    if (query.trim() !== "") {
-        spinner.classList.remove('hidden');
-        issuesWrapper.innerHTML = '';
+    // ২. স্পিনার দেখানো এবং কন্টেইনার খালি করা
+    spinner.classList.remove('hidden');
+    issuesWrapper.innerHTML = '';
 
-        fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${query}`)
-            .then(res => res.json())
-            .then(data => {
-                spinner.classList.add('hidden');
-                if (data.data && data.data.length > 0) {
-                    displayIssues(data.data);
-                } else {
-                    alert("No Data Found! Please search with another keyword.");
-                    loadIssues(); 
-                }
-            });
-    } else {
-        loadIssues(); 
-    }
+    // ৩. এপিআই থেকে সব ডাটা ফেচ করা (মেন্টরের লজিক অনুযায়ী)
+    fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
+        .then(res => res.json())
+        .then(data => {
+            const allIssues = data.data;
+
+            // ৪. জাভাস্ক্রিপ্ট ফিল্টার ব্যবহার করে সার্চ করা
+            const filterIssues = allIssues.filter(issue => 
+                issue.title.toLowerCase().includes(query) || 
+                issue.description.toLowerCase().includes(query)
+            );
+
+            // ৫. স্পিনার লুকানো
+            spinner.classList.add('hidden');
+
+            // ৬. কন্ডিশন চেক করে ডাটা ডিসপ্লে করা
+            if (filterIssues.length > 0) {
+                displayIssues(filterIssues);
+            } else {
+                // ডাটা না পাওয়া গেলে মেসেজ বা অ্যালার্ট
+                alert("No Data Found! Please search with another keyword.");
+                loadIssues(); 
+            }
+        })
+        .catch(err => {
+            console.error("Error:", err);
+            spinner.classList.add('hidden');
+        });
 });
 
 
