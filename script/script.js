@@ -63,8 +63,18 @@ function displayIssues(issues) {
                 textColor = 'text-[#00A96E]';
                 borderCol = 'border-[#00A96E]';
                 icon = './assets/enhancement.png'; 
-            } else {
-                
+            }else if (labelLower === 'documentation') {
+             bgColor = 'bg-[#EEEFF2]'; 
+           textColor = 'text-[#9CA3AF]';
+           borderCol = 'border-[#9CA3AF]';
+         icon = './assets/Vector (1).png';
+        } else if (labelLower === 'good first issue') {
+        
+        bgColor = 'bg-[#F0E2FF]'; 
+        textColor = 'text-[#A855F7]';
+        borderCol = 'border-[#A855F7]';
+        icon = './assets/Vector (1).png'; 
+        }  else {
                 bgColor = 'bg-[#FDE68A]';
                 textColor = 'text-[#D97706]';
                 borderCol = 'border-[#D97706]';
@@ -95,7 +105,7 @@ function displayIssues(issues) {
                     </button>
                 </div>
                 <div class="mt-4">
-                    <h3 class="text-[15px] text-[#1F2937] font-bold line-clamp-1">${issue.title}</h3>
+                    <h3 class="text-[15px] text-[#1F2937] font-bold ">${issue.title}</h3>
                     <p class="text-[13px] text-[#64748B] mt-2 line-clamp-2">${issue.description}</p>
                 </div>
 
@@ -103,7 +113,7 @@ function displayIssues(issues) {
                     ${labelsHtml} 
                 </div>
 
-                <div class="my-4 border-t border-gray-50"></div>
+                <div class="my-4 border-t  border-[#E4E4E7] pt-[16px] mt-[16px]">
                 <div class="text-[12px] text-[#64748B]">
                     <p class="font-medium">#${issue.id} by ${issue.author}</p>
                     <p>${new Date(issue.createdAt).toLocaleDateString()}</p>
@@ -112,7 +122,7 @@ function displayIssues(issues) {
         `;
         issuesWrapper.appendChild(card);
     });
-}
+};
 
 
 function switchTab(status) {
@@ -126,42 +136,42 @@ function switchTab(status) {
         }
     });
     loadIssues(status);
-}
+};
 
 
-// মেন্টরের স্টাইল অনুযায়ী সার্চ ফাংশন
+
 const searchForm = document.getElementById('search-form');
 
 searchForm.addEventListener('submit', function(e) {
     e.preventDefault(); 
     
-    // ১. ইনপুট ভ্যালু নেওয়া
+   
     const query = document.getElementById('search-input').value.trim().toLowerCase();
 
-    // ২. স্পিনার দেখানো এবং কন্টেইনার খালি করা
+   
     spinner.classList.remove('hidden');
     issuesWrapper.innerHTML = '';
 
-    // ৩. এপিআই থেকে সব ডাটা ফেচ করা (মেন্টরের লজিক অনুযায়ী)
+   
     fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
         .then(res => res.json())
         .then(data => {
             const allIssues = data.data;
 
-            // ৪. জাভাস্ক্রিপ্ট ফিল্টার ব্যবহার করে সার্চ করা
+      
             const filterIssues = allIssues.filter(issue => 
                 issue.title.toLowerCase().includes(query) || 
                 issue.description.toLowerCase().includes(query)
             );
 
-            // ৫. স্পিনার লুকানো
+         
             spinner.classList.add('hidden');
 
-            // ৬. কন্ডিশন চেক করে ডাটা ডিসপ্লে করা
+        
             if (filterIssues.length > 0) {
                 displayIssues(filterIssues);
             } else {
-                // ডাটা না পাওয়া গেলে মেসেজ বা অ্যালার্ট
+               
                 alert("No Data Found! Please search with another keyword.");
                 loadIssues(); 
             }
@@ -220,7 +230,17 @@ async function showIssueDetails(id) {
             textColor = 'text-[#00A96E]';
             borderCol = 'border-[#00A96E]';
             icon = './assets/enhancement.png';
-        } else {
+        } else if (labelLower === 'documentation') {
+             bgColor = 'bg-[#EEEFF2]'; 
+           textColor = 'text-[#9CA3AF]';
+           borderCol = 'border-[#9CA3AF]';
+         icon = './assets/Vector (1).png';
+        } else if (labelLower === 'good first issue') {
+        bgColor = 'bg-[#F0E2FF]'; 
+        textColor = 'text-[#A855F7]';
+        borderCol = 'border-[#A855F7]';
+        icon = './assets/Vector (1).png'; 
+        }else {
             bgColor = 'bg-[#FDE68A]';
             textColor = 'text-[#D97706]';
             borderCol = 'border-[#D97706]';
@@ -237,6 +257,12 @@ async function showIssueDetails(id) {
     });
     
     my_modal_5.showModal();
-}
+};
+const closeButton = document.querySelector('.modal-action button'); 
+
+closeButton.addEventListener('click', () => {
+    my_modal_5.close(); 
+});
+
 
 loadIssues();
