@@ -168,7 +168,13 @@ async function showIssueDetails(id) {
             } else if (labelLower === 'enhancement') {
                 bgColor = 'bg-[#BBF7D0]'; textColor = 'text-[#00A96E]'; borderCol = 'border-[#00A96E]';
                 icon = 'fa-wand-magic-sparkles'; iconColor = '#00A96E';
-            } else {
+            }else if (labelLower === 'documentation') {
+                bgColor = 'bg-[#EEEFF2]'; textColor = 'text-[#9CA3AF]'; borderCol = 'border-[#9CA3AF]';
+                icon = 'fa-file-lines'; iconColor = '#9CA3AF';
+            }else if (labelLower === 'good first issue') {
+                bgColor = 'bg-[#F0E2FF]'; textColor = 'text-[#A855F7]'; borderCol = 'border-[#A855F7]';
+                icon = 'fa-seedling'; iconColor = '#A855F7';
+            }  else {
                 bgColor = 'bg-[#FDE68A]'; textColor = 'text-[#D97706]'; borderCol = 'border-[#D97706]';
                 icon = 'fa-regular fa-life-ring'; iconColor = '#D97706';
             }
