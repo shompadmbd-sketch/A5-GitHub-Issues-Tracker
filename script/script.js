@@ -1,9 +1,12 @@
 const issuesWrapper = document.getElementById('issues-wrapper');
 const spinner = document.getElementById('spinner');
-const searchInput = document.getElementById('search-input');
+
+
+let currentFilter = 'all'; 
 
 
 function loadIssues(status = 'all') {
+    currentFilter = status; 
     spinner.classList.remove('hidden');
     issuesWrapper.innerHTML = '';
 
@@ -13,8 +16,8 @@ function loadIssues(status = 'all') {
             let issues = data.data;
 
            
-            if (status !== 'all') {
-                issues = issues.filter(issue => issue.status.toLowerCase() === status.toLowerCase());
+            if (currentFilter !== 'all') {
+                issues = issues.filter(issue => issue.status.toLowerCase() === currentFilter.toLowerCase());
             }
 
             const countElement = document.getElementById('issue-count');
@@ -22,7 +25,7 @@ function loadIssues(status = 'all') {
                 countElement.innerText = `${issues.length} Issues`;
             }
 
-            displayIssues(issues);
+            displayIssues(issues); 
             spinner.classList.add('hidden');
         })
         .catch(err => {
@@ -52,7 +55,7 @@ function displayIssues(issues) {
         }
 
         const labelsHtml = issue.labels.map(label => {
-            const labelLower = label.toLowerCase();
+            const labelLower = label.toLowerCase().trim();
             let bgColor, textColor, borderCol, icon, iconColor;
 
             if (labelLower === 'bug') {
@@ -69,11 +72,10 @@ function displayIssues(issues) {
                 icon = 'fa-seedling'; iconColor = '#A855F7';
             } else {
                 bgColor = 'bg-[#FDE68A]'; textColor = 'text-[#D97706]'; borderCol = 'border-[#D97706]';
-                icon = 'fa-life-ring'; iconColor = '#D97706';
+                icon = 'fa-regular fa-life-ring'; iconColor = '#D97706';
             }
 
-           
-            const iconPrefix = labelLower === 'help wanted' || labelLower === 'life-ring' ? 'fa-regular' : 'fa-solid';
+            const iconPrefix = icon.includes('fa-regular') ? 'fa-regular' : 'fa-solid';
 
             return `
                 <div class="inline-flex items-center gap-1 px-2.5 py-1 ${bgColor} border ${borderCol} rounded-full">
@@ -118,6 +120,7 @@ function displayIssues(issues) {
 
 function switchTab(status) {
     if (window.event) window.event.preventDefault(); 
+    currentFilter = status;
 
     const tabs = ['all', 'open', 'closed'];
     tabs.forEach(tabId => {
@@ -134,69 +137,24 @@ function switchTab(status) {
 }
 
 
-const searchForm = document.getElementById('search-form');
-if (searchForm) {
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault(); 
-        const query = document.getElementById('search-input').value.trim().toLowerCase();
-        spinner.classList.remove('hidden');
-        issuesWrapper.innerHTML = '';
-
-        fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
-            .then(res => res.json())
-            .then(data => {
-                const allIssues = data.data;
-                const filterIssues = allIssues.filter(issue => 
-                    issue.title.toLowerCase().includes(query) || 
-                    issue.description.toLowerCase().includes(query)
-                );
-
-                spinner.classList.add('hidden');
-                if (filterIssues.length > 0) {
-                    displayIssues(filterIssues);
-                } else {
-                    alert("No Data Found!");
-                    loadIssues(); 
-                }
-            });
-    });
-}
-
-
 async function showIssueDetails(id) {
     try {
         const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
         const data = await res.json();
         const issue = data.data;
 
-       
         document.getElementById('modal-title').innerText = issue.title;
         document.getElementById('modal-description').innerText = issue.description;
         document.getElementById('modal-author-name').innerText = `Opened by ${issue.author}`;
         document.getElementById('modal-date').innerText = new Date(issue.createdAt).toLocaleDateString();
         document.getElementById('modal-assignee').innerText = issue.assignee || "N/A";
 
-        
         const statusEl = document.getElementById('modal-status');
         statusEl.innerText = issue.status.toUpperCase();
         statusEl.className = issue.status.toLowerCase() === 'open' 
             ? "bg-[#00A96E] text-white px-4 py-1 rounded-full text-[12px] font-medium" 
             : "bg-[#A855F7] text-white px-4 py-1 rounded-full text-[12px] font-medium";
 
-       
-        const priorityBtn = document.getElementById('modal-priority');
-        priorityBtn.innerText = issue.priority.toUpperCase();
-        const prio = issue.priority.toLowerCase();
-        
-        if (prio === 'high') {
-            priorityBtn.className = "bg-[#EF4444] text-white px-6 py-1.5 rounded-full text-[12px] font-medium uppercase tracking-wider";
-        } else if (prio === 'medium') {
-            priorityBtn.className = "bg-[#F59E0B] text-white px-6 py-1.5 rounded-full text-[12px] font-medium uppercase tracking-wider";
-        } else {
-            priorityBtn.className = "bg-[#6B7280] text-white px-6 py-1.5 rounded-full text-[12px] font-medium uppercase tracking-wider";
-        }
-
-        
         const modalLabels = document.getElementById('modal-labels');
         modalLabels.innerHTML = ''; 
 
@@ -208,15 +166,8 @@ async function showIssueDetails(id) {
                 bgColor = 'bg-[#FECACA]'; textColor = 'text-[#EF4444]'; borderCol = 'border-[#EF4444]';
                 icon = 'fa-bug'; iconColor = '#EF4444';
             } else if (labelLower === 'enhancement') {
-                
                 bgColor = 'bg-[#BBF7D0]'; textColor = 'text-[#00A96E]'; borderCol = 'border-[#00A96E]';
                 icon = 'fa-wand-magic-sparkles'; iconColor = '#00A96E';
-            } else if (labelLower === 'documentation') {
-                bgColor = 'bg-[#EEEFF2]'; textColor = 'text-[#9CA3AF]'; borderCol = 'border-[#9CA3AF]';
-                icon = 'fa-file-lines'; iconColor = '#9CA3AF';
-            } else if (labelLower === 'good first issue') {
-                bgColor = 'bg-[#F0E2FF]'; textColor = 'text-[#A855F7]'; borderCol = 'border-[#A855F7]';
-                icon = 'fa-seedling'; iconColor = '#A855F7';
             } else {
                 bgColor = 'bg-[#FDE68A]'; textColor = 'text-[#D97706]'; borderCol = 'border-[#D97706]';
                 icon = 'fa-regular fa-life-ring'; iconColor = '#D97706';
@@ -224,8 +175,6 @@ async function showIssueDetails(id) {
 
             const labelDiv = document.createElement('div');
             labelDiv.className = `inline-flex items-center gap-1.5 px-3 py-1 ${bgColor} border ${borderCol} rounded-full`;
-            
-            
             const finalIconClass = icon.includes('fa-regular') ? icon : `fa-solid ${icon}`;
             
             labelDiv.innerHTML = `
@@ -235,25 +184,79 @@ async function showIssueDetails(id) {
             modalLabels.appendChild(labelDiv);
         });
 
-      
         const modal = document.getElementById('my_modal_5');
-        if (modal) {
-            modal.showModal();
-        }
-
+        if (modal) modal.showModal();
     } catch (error) {
-        console.error("Error fetching issue details:", error);
+        console.error(error);
     }
 }
 
 
 document.addEventListener('click', (e) => {
-   
     if (e.target.closest('.modal-action button')) {
         const modal = document.getElementById('my_modal_5');
         if (modal) {
             modal.close();
+            
+            loadIssues(currentFilter); 
         }
     }
 });
+
+
+const searchForm = document.getElementById('search-form');
+
+if (searchForm) {
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        const query = document.getElementById('search-input').value.trim().toLowerCase();
+
+       
+        if (!query) {
+            loadIssues(currentFilter);
+            return;
+        }
+
+        spinner.classList.remove('hidden');
+        issuesWrapper.innerHTML = '';
+
+        fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
+            .then(res => res.json())
+            .then(data => {
+                let issues = data.data;
+
+                
+                if (currentFilter !== 'all') {
+                    issues = issues.filter(issue => issue.status.toLowerCase() === currentFilter.toLowerCase());
+                }
+
+                
+                const filterIssues = issues.filter(issue => 
+                    issue.title.toLowerCase().includes(query) || 
+                    issue.description.toLowerCase().includes(query)
+                );
+
+                spinner.classList.add('hidden');
+
+                if (filterIssues.length > 0) {
+                    displayIssues(filterIssues);
+                    
+                    
+                    const countElement = document.getElementById('issue-count');
+                    if (countElement) {
+                        countElement.innerText = `${filterIssues.length} Results Found`;
+                    }
+                } else {
+                    alert("No Data Found in this category!");
+                    loadIssues(currentFilter); 
+                }
+            })
+            .catch(err => {
+                console.error("Search Error:", err);
+                spinner.classList.add('hidden');
+            });
+    });
+}
+
 loadIssues();
