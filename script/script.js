@@ -51,39 +51,43 @@ function displayIssues(issues) {
       
         const labelsHtml = issue.labels.map(label => {
             const labelLower = label.toLowerCase();
-            let bgColor, textColor, borderCol, icon;
+            let bgColor, textColor, borderCol, icon, iconColor;
 
             if (labelLower === 'bug') {
                 bgColor = 'bg-[#FECACA]';
                 textColor = 'text-[#EF4444]';
                 borderCol = 'border-[#EF4444]';
-                icon = './assets/Vector.png';
+                icon = 'fa-bug';
+                iconColor = '#EF4444';
             } else if (labelLower === 'enhancement') {
                 bgColor = 'bg-[#BBF7D0]';
                 textColor = 'text-[#00A96E]';
                 borderCol = 'border-[#00A96E]';
-                icon = './assets/enhancement.png'; 
+                icon = 'fa-wand-magic-sparkles'; 
+                iconColor = '#00A96E';
             }else if (labelLower === 'documentation') {
              bgColor = 'bg-[#EEEFF2]'; 
            textColor = 'text-[#9CA3AF]';
            borderCol = 'border-[#9CA3AF]';
-         icon = './assets/Vector (1).png';
+          icon = 'fa-file-lines';
+          iconColor = '#9CA3AF';
         } else if (labelLower === 'good first issue') {
-        
         bgColor = 'bg-[#F0E2FF]'; 
         textColor = 'text-[#A855F7]';
         borderCol = 'border-[#A855F7]';
-        icon = './assets/Vector (1).png'; 
+        icon = 'fa-seedling'; 
+        iconColor = '#A855F7';
         }  else {
                 bgColor = 'bg-[#FDE68A]';
                 textColor = 'text-[#D97706]';
                 borderCol = 'border-[#D97706]';
-                icon = './assets/Vector (1).png';
+                icon = 'fa-regular fa-life-ring';
+                iconColor = '#D97706';
             }
 
             return `
                 <div class="inline-flex items-center gap-1 px-2.5 py-1 ${bgColor} border ${borderCol} rounded-full">
-                    <img src="${icon}" alt="${label}" class="w-3.5 h-3.5">
+                  <i class="fa-solid ${icon} text-[12px]" style="color: ${iconColor}"></i>
                     <span class="text-[11px] ${textColor} font-bold uppercase tracking-tight">${label}</span>
                 </div>
             `;
@@ -218,39 +222,44 @@ async function showIssueDetails(id) {
    
     issue.labels.forEach(label => {
         const labelLower = label.toLowerCase();
-        let bgColor, textColor, borderCol, icon;
+        let bgColor, textColor, borderCol, icon, iconColor ;
 
         if (labelLower === 'bug') {
             bgColor = 'bg-[#FECACA]';
             textColor = 'text-[#EF4444]';
             borderCol = 'border-[#EF4444]';
-            icon = './assets/Vector.png';
+            icon = 'fa-bug';
+             iconColor = '#EF4444';
         } else if (labelLower === 'enhancement') {
             bgColor = 'bg-[#BBF7D0]';
             textColor = 'text-[#00A96E]';
             borderCol = 'border-[#00A96E]';
-            icon = './assets/enhancement.png';
+            icon = 'fa-wand-magic-sparkles';
+            iconColor = '#00A96E';
         } else if (labelLower === 'documentation') {
              bgColor = 'bg-[#EEEFF2]'; 
            textColor = 'text-[#9CA3AF]';
            borderCol = 'border-[#9CA3AF]';
-         icon = './assets/Vector (1).png';
+           icon = 'fa-file-lines';
+          iconColor = '#9CA3AF';
         } else if (labelLower === 'good first issue') {
         bgColor = 'bg-[#F0E2FF]'; 
         textColor = 'text-[#A855F7]';
         borderCol = 'border-[#A855F7]';
-        icon = './assets/Vector (1).png'; 
+        icon = 'fa-seedling';
+         iconColor = '#A855F7';
         }else {
             bgColor = 'bg-[#FDE68A]';
             textColor = 'text-[#D97706]';
             borderCol = 'border-[#D97706]';
-            icon = './assets/Vector (1).png';
+            icon = 'fa-regular fa-life-ring';
+            iconColor = '#D97706';
         }
 
         const labelDiv = document.createElement('div');
         labelDiv.className = `inline-flex items-center gap-1.5 px-3 py-1 ${bgColor} border ${borderCol} rounded-full`;
         labelDiv.innerHTML = `
-            <img src="${icon}" alt="${label}" class="w-3.5 h-3.5">
+            <i class="fa-solid ${icon} text-[12px]" style="color: ${iconColor}"></i>
             <span class="text-[12px] ${textColor} font-medium uppercase">${label}</span>
         `;
         modalLabels.appendChild(labelDiv);
